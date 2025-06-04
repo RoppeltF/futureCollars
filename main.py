@@ -1,155 +1,89 @@
+"""
+In this exercise, you are tasked to create a Python program that simulates a package loading system. Each package can carry
+ a maximum of 20 kg of goods. Items are added to the package with weights ranging from 1 to 10 kg. If adding an item
+ to the package would exceed the 20 kg limit, the package should be sent, and the current item should start a new package.
+ If an item with a weight of 0 is given, the program should terminate.
+
+1. Write a program that prompts the user for the maximum number of items to be shipped.
+2. The program should allow the user to enter the weight of each item, one by one.
+3. If adding an item would increase the total weight of the current package above 20 kg, mark the current package as sent
+and start a new package with the current item.
+4. If an item with a weight of 0 kg is given, the program should terminate as if the maximum number of items has been reached.
+5. At the end of the program, display the following information:
+
+  Number of packages sent
+  Total weight of packages sent
+  Total 'unused' capacity (non-optimal packaging). This is calculated as the number of packages sent multiplied by 20 kg, minus the total weight of packages sent.
+  The package number that had the most 'unused' capacity and the amount of 'unused' capacity in that package.
+
+Hints:
+
+- Use a loop to continuously prompt the user for item weights until the maximum number of items has been reached or an item with a weight of 0 kg is given.
+- Keep track of the current package's total weight and the number of packages sent.
+- Remember to handle cases where the weight of an item is outside the acceptable range (1 to 10 kg, unless it's 0).
+- Handle user inputs that are not as expected (for example, if the user enters a string instead of a number for the item's weight).
+   The program should not crash in these cases, but instead, it should display an appropriate error message.
 
 """
+import os
 
-1.Swap Values
-Create two variables a and b, assign them any numbers, and then swap their values.
+MAX_WEIGHT = 20
 
-2.Rectangle Area and Perimeter
-Define variables width and height, and calculate the area and perimeter of a rectangle.
+i = 0
+shipping_total_weight = 0
+shipping_package_count = 1
 
-3.Calculate Average
-Create three variables with grades (grade1, grade2, grade3) and calculate the arithmetic average.
-
-4.Temperature Conversion
-Given a temperature in Celsius (c), convert it to Fahrenheit using the formula:
-f = (c * 9/5) + 32
-
-5.Simple Calculator
-Declare two numbers (x, y) and print the result of basic operations: addition, subtraction, multiplication, and division.
-
-6.String Concatenation
-Create variables first_name and last_name, then combine them into one full name variable full_name.
-
-7.Compare Values
-Create two variables and compare them using comparison operators (>, <, ==, !=). Print the results.
-
-8.Boolean Variable and not Operator
-Create a boolean variable like is_logged_in = False, then use the not operator to take action if the condition is not met.
-
-9.Logical Operators: and, or
-Use boolean variables (e.g. is_password_correct, is_username_correct) and combine them with logical operators to simulate login access logic.
-
-10.Check If Number Is Within a Range
-Create a variable number and use logical operators to check if it's between 10 and 20 (inclusive).
-
-"""
-
-### 1
-aux = 0
-a = 123
-b = 456
-
-a=aux
-a=b
-b=aux
-
-#############
-
-### 2
+# Print the size of terminal
+fill_terminal = os.get_terminal_size()
 
 
-width = 15
-height = 35
+print(":" * fill_terminal[0])
+print(":" * fill_terminal[0])
 
-area=  width * height
-perimeter = 2 * (height+ width)
+print("\n" * 2)
 
-print(f"the area of {height} * {width} is:: {area}")
-print(f"the perimeter of {height} * {width} is:: {perimeter}")
-
-print("\n\n")
-##############
-
-### 3
-
-grade1 = 10
-grade2 = 6
-grade3 = 8
-
-average = ( grade1 + grade2 + grade3 ) / 3
-
-print(f"Grades: \n{grade1} \n{grade2} \n{grade3}")
-print(f"The Average of grades is: {average}")
-
-print("\n\n")
-###############
-
-### 4
-C_temp = int(input("Enter the temperature to convert (C -> F): "))
-f = (C_temp * 9/5) + 32
-print(f"\n\n {f}")
-
-###############
-
-### 5
-
-x = int(input("Enter a number for X: " ))
-y = int(input("Enter a number for Y: " ))
-
-print(f"Add X and Y:  {x+y}")
-print(f"Sub X and Y:  {x-y}")
-print(f"Mult X and Y: {x*y}")
-print(f"Div X and Y:  {x/y}")
-
-print("\n\n")
-###############
+print(":::::::: package loading system ::::::::")
+print("::::::::")
+print("::::::::    Type 0 to exit")
 
 
-### 6
+try:
+    n_items_to_ship = int(input("how many items will be shipped ? "))
+    print("")
+    if n_items_to_ship < 0:
+        print("Maximum number of items must be 1 or higher")
+    elif n_items_to_ship == 0:
+        print("Exiting...")
 
+except ValueError:
+    print("Invalid input. Please enter a valid number of items.")
 
-first_name = input("Enter your First Name:: ")
-last_name = input("Enter your Last Name:: ")
+i = 0
+while i < n_items_to_ship:
+    try:
+        item_weight = int(input(f"Please enter item {i+1} of {n_items_to_ship} weight: "))
+        if item_weight == 0:
+            print("Exiting...")
+        elif item_weight < 1 or item_weight > 10:
+            print("Item weight must be between 1 and 10 kg.")
+            continue
+        elif shipping_total_weight + item_weight > 20:
+            print(f"\n item {i+1} sent separately as it exceeds max shipping weight of 20kg")
+            shipping_package_count += 1
+            shipping_total_weight += item_weight
+        else:
+            shipping_total_weight += item_weight
 
-full_name = first_name +" "+ last_name
+    except ValueError:
+        print("Invalid input. Please enter a valid weight for the item.")
+    i += 1
 
-print(f" Hi {full_name} !!!")
-print("\n\n")
+print("\n"*2)
 
-###############
+print(f"Number of package sent: {shipping_package_count}" )
+print(f"total shipping weight: {shipping_total_weight}" )
 
-### 7
+unused_capacity = (shipping_package_count * 20) - shipping_total_weight
+print(f"Unused capacity: {unused_capacity}")
 
-a = 12
-b = 27
-
-print(a == b)
-print(a != b)
-print(a < b)
-print(a > b)
-print("\n\n")
-###############
-### 8
-#Create a boolean variable like is_logged_in = False, then use the not operator to take action if the condition is not met.
-
-logged_in = False
-
-if logged_in is not False:
-    print("User logged in")
-else:
-    print("User not logged in")
-print("\n\n")
-###############
-
-### 9
-#Use boolean variables (e.g. is_password_correct, is_username_correct) and combine them with logical operators to simulate login access logic.
-
-correct_passwd = False
-
-if logged_in == True and correct_passwd == True:
-    print("You're logged in")
-else:
-    print("Access denied")
-
-print("\n\n")
-###############
-### 10
-
-
-number = int(input("Enter a number"))
-if 10 <= number <= 20:
-    print(f"Number: {number} is between 10 and 20.")
-else:
-    print(f"Number:  {number} is NOT between 10 and 20.")
-print("\n\n")
-###############
+print("\n"*3)
