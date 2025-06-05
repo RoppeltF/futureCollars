@@ -38,10 +38,6 @@ Perform the selected operation on two numbers.
 """
 import random
 
-MAX_WEIGHT = 20
-
-#Print the size of terminal
-
 print("\n" * 2)
 
 #1. Even or Odd
