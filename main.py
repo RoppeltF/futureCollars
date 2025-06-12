@@ -135,10 +135,13 @@ print("total: ",sum)
 # # 0. Quit
 
 
+options = ["add", "subtract", "multiply", "divide"]
+
 while True:
     print("::: Calculator Menu :::")
-    print("::: 1. Add :::")
-    print("::: 2. Subtract :::")
+    for x, opt in enumerate(options, 1):
+        print(x, " - " + opt)
+
     print("::: 0. Quit :::")
 
     print("\n")
@@ -148,20 +151,27 @@ while True:
         break
     elif op == 1:
         a = int(input("Select 1st number to add:"))
-        b = int(input("Select 1st number to add:"))
-        print("Result: ",a+b)
+        b = int(input("Select 2st number to add:"))
+        print("Result: ", a + b)
     elif op == 2:
         a = int(input("Select 1st number to subtract:"))
-        b = int(input("Select 1st number to subtract:"))
+        b = int(input("Select 2st number to subtract:"))
         print("Result: ", a - b)
     elif op == 3:
         a = int(input("Select 1st number to multiply:"))
-        b = int(input("Select 1st number to multiply:"))
+        b = int(input("Select 2st number to multiply:"))
         print("Result: ", a * b)
     elif op == 4:
         a = int(input("Select 1st number to divide:"))
-        b = int(input("Select 1st number to divide:"))
-        print("Result: ", a//b)
+        b = int(input("Select 2st number to divide:"))
+        if a == 0 or b == 0 or a < 0 or b < 0:
+            print("\n")
+            print("number can't be 0 or negative, try again")
+            print("\n")
+            continue
+        print("Result: ", a // b)
+        print("\n")
+
     else:
         print("Invalid Option")
 
