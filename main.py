@@ -8,7 +8,6 @@
 # - Handle user inputs that are not as expected. The program should not crash in these cases, but instead, it should display an appropriate error message.
 # """
 
-
 op = 99
 items = []
 balance = 0
