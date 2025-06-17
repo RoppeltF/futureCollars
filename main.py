@@ -17,6 +17,7 @@ def menu(menu_name,menu_options):
     for x, opt in enumerate(menu_options[::-1],0):
         print(x, " - " + opt)
 
+
 def inventory(item_name,item_quantity,item_price):
 
     items_dict ={}
@@ -24,25 +25,29 @@ def inventory(item_name,item_quantity,item_price):
     items_dict["item_info"] = {"item_price": item_price,"item_quantity": item_quantity}
     items.append(items_dict)
 
-def balance():
+
+def warehouse_balance(balance):
     #The program should prompt for an amount to add or subtract from the account.
-    options = ["add","sub"]
-
-    op = int( input("\n Chose the operation to perform: "))
-
+    options = ["Subtract", "Add balance","Quit"]
     while True:
+
+        menu("Balance Menu",options)
+        op = int( input("\n Chose the operation to perform: "))
+
         if op == 0:
             break
         elif op == 1:
-            a = int(input("Select 1st number to add:"))
-            b = int(input("Select 1st number to add:"))
-            print("Result: ", a + b)
+            a = int(input(f"Enter the amount to add to company Balance: {balance} :"))
+            balance = balance + a
+            print("New balance: ", balance )
         elif op == 2:
-            a = int(input("Select 1st number to subtract:"))
-            b = int(input("Select 1st number to subtract:"))
-            print("Result: ", a - b)
+            a = int(input(f"Enter the amount to deduct from company Balance: {balance} :"))
+            balance = balance - a
+            print("New balance: ", balance )
         else:
             print("Operation invalid Try again")
+    return balance
+
 
 def sale():
     #The program should prompt for the name of the product, its price, and quantity. Perform necessary calculations and update the account and warehouse accordingly.
@@ -132,7 +137,7 @@ while True:
     if op == 0:
         break
     elif op == 1:
-        balance()
+        balance = warehouse_balance(balance)
     elif op == 2:
         sale()
     elif op == 3:
