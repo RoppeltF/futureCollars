@@ -1,37 +1,32 @@
-# """
-# In this exercise, you are tasked to write a Python program that simulates operations on a company's account and a warehouse.
-#
-# The program should handle various commands for performing operations like adding/subtracting balance, recording sales and purchases, displaying account balance, showing warehouse status, and reviewing recorded operations.
-#
-# Instructions:
-#
-# 1. Write a program that displays available commands upon launch. The commands are:
-#   - balance
-#   - sale
-#   - purchase
-#   - account
-#   - list
-#   - warehouse
-#   - review
-#   - end
-#
-# 2. Handle each command uniquely:
-#   - 'balance': The program should prompt for an amount to add or subtract from the account.
-#   - 'sale': The program should prompt for the name of the product, its price, and quantity. Perform necessary calculations and update the account and warehouse accordingly.
-#   - 'purchase': The program should prompt for the name of the product, its price, and quantity. Perform necessary calculations and update the account and warehouse accordingly. Ensure that the account balance is not negative after a purchase operation.
-#   - 'account': Display the current account balance.
-#   - 'list': Display the total inventory in the warehouse along with product prices and quantities.
-#   - 'warehouse': Prompt for a product name and display its status in the warehouse.
-#   - 'review': Prompt for two indices 'from' and 'to', and display all recorded operations within that range. If ‘from’ and ‘to’ are empty, display all recorder operations. Handle cases where 'from' and 'to' values are out of range.
-#   - 'end': Terminate the program.
-#
-# 3. After executing any command, the program should again display the list of commands and prompt for the next command.
-#
-# Hints:
-#
-# - Use a loop to continuously prompt for commands until the 'end' command is entered.
-# - Keep track of the account balance and warehouse inventory.
-# - Remember to handle edge cases, like invalid command inputs, negative amounts during a 'purchase' operation, or out-of-range indices during a 'review' operation.
-# - The balance, sale, and purchase commands are remembered by the program.
-# - Handle user inputs that are not as expected. The program should not crash in these cases, but instead, it should display an appropriate error message.
-# """
+In this exercise, you are tasked to write a Python program that simulates operations on a school database. The program should enable the creation of three types of users (student, teacher, and homeroom teacher), as well as manage them.
+
+1. Write a program that displays available commands upon launch. The commands are: create, manage, end.
+
+2. Handle each command uniquely:
+  - 'create': The program should start the user creation process.
+  - 'manage': The program should start the user management process.
+  - 'end': Terminate the program.
+
+User Creation Process:
+
+1. Prompt for a user type to create: student, teacher, homeroom teacher, end.
+2. After creating a user (except for 'end'), the menu should be displayed again.
+  - 'student': Prompt for the student's first and last name (as one or two variables, depending on your design) and the class name (e.g., "3C").
+  - 'teacher': Prompt for the teacher's first and last name (as one or two variables, depending on your design), the subject they teach, and the names of the classes they teach, until an empty line is entered.
+  - 'homeroom teacher': Prompt for the homeroom teacher's first and last name (as one or two variables, depending on your design), and the name of the class they lead.
+  - 'end': Return to the main menu.
+
+User Management Process:
+
+1. Prompt for an option to manage: class, student, teacher, homeroom teacher, end. After managing an option (except for 'end'), the menu should be displayed again.
+  - 'class': Prompt for a class to display (e.g., "3C"), the program should list all students in the class and the homeroom teacher.
+  - 'student': Prompt for a student's first and last name, the program should list all the classes the student attends and the teachers of these classes.
+  - 'teacher': Prompt for a teacher's first and last name, the program should list all the classes the teacher teaches.
+  - 'homeroom teacher': Prompt for a homeroom teacher's first and last name, the program should list all students the homeroom teacher leads.
+  - 'end': Return to the main menu.
+
+Hints:
+
+- Use loops and conditionals to control the flow of your program.
+- Keep track of users and their attributes in suitable data structures.
+- Handle possible errors like entering a user that doesn't exist in the database.
