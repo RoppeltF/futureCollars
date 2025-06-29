@@ -1,4 +1,3 @@
-op = 99
 items = [{"item_name":"popcorn","item_info":{"price":"7","quantity":"99"}},
         {"item_name":"pans","item_info":{"price":"1","quantity":"999"}},
         {"item_name":"TV","item_info":{"price":"700","quantity":"9"}}
@@ -67,10 +66,6 @@ def purchase(balance):
     LOG.append(f"New warehouse balance: {balance}")
     return balance
 
-# options = ['Update Balance', 'Manage Inventory', 'Sell', 'Account Balance', 'List', 'Warehouse', 'Review']
-
-
-
 while True:
     options = ["balance", "sale", "purchase", "account", "list", "warehouse", "review"]
     menu("Warehouse Menu",options)
@@ -119,7 +114,6 @@ while True:
         except:
             print(f"An error happened {item_name} not added! ")
             LOG.append(f"ERROR ADDING ITEM {item_name}")
-
 
     elif op == 3:
         balance = purchase(balance)
