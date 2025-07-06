@@ -1,11 +1,7 @@
-items = [{"item_name":"popcorn","item_info":{"price":"7","quantity":"99"}},
-        {"item_name":"pans","item_info":{"price":"1","quantity":"999"}},
-        {"item_name":"TV","item_info":{"price":"700","quantity":"9"}}
-        ]
+import ast
+from hashlib import file_digest
 
-balance = 1000
-
-LOG=[]
+from User_class import *
 
 def menu(menu_name,menu_options):
     print(f":::: {menu_name}  ::::")
@@ -13,164 +9,211 @@ def menu(menu_name,menu_options):
         print( f"{x} - {opt}")
     print("0 - Quit")
 
-def items_menu(menu_name,items):
-    print(f":::: {menu_name}  ::::")
-    for x, opt in enumerate(items, 1):
-        print(f"#{x} - {opt["item_name"]}")
-    print("#0 - Quit")
-
-
 def op_check(message):
     try:
         op = int(input(f"{message}: "))
+        return op
     except ValueError:
         print("Invalid option please try again !")
         op_check(message)
-    return op
 
 
-def purchase(balance):
-    # The program should prompt for the name of the product, its price, and quantity. Perform necessary calculations and update the account and warehouse accordingly. Ensure that the account balance is not negative after a purchase operation.
-    total = 0
-    while True:
-        items_menu("Select Item to Sell", items)
-        print("")
-        if items:
-            op = int(input("Select item to sell: "))
-            if op == 0:
-                break
-            op -= 1
-            if op < len(items):
-                print(f"Selected Item: {items[op]["item_name"]}")
-                print(f"Item Price: {items[op]["item_info"]["price"]}")
-                quantity = int(input("How many will be bought: "))
-                items[op]["item_info"]["quantity"] = int(items[op]["item_info"]["quantity"]) - quantity
-                total = total + int(items[op]["item_info"]["price"]) * quantity
-                check_balance =  balance - total
-                if  check_balance < 0 :
-                    print("Operation denied no change available! please try again")
-                    LOG.append(f"Operation denied !! -- Items purchased- {items[op]["item_name"]} - Item quantity - {items[op]["item_info"]["quantity"]} - total value: {total}")
-                    total=0
-                    break
-                LOG.append(f" Items purchased- {items[op]["item_name"]} - Item quantity - {items[op]["item_info"]["quantity"]} - total value: {total}")
+def list_per_Class(file,class_name):
+    for line in file:
+        line = line .strip() # remove leading/trailing whitespace
+        if line:
+            data_dict = ast.literal_eval(line)
+            for c_name in data_dict["Class_Name"]:
+                if c_name == class_name:
+                    print(f"Name: {data_dict["Name"]} {data_dict["Surname"]}  - Class Name: {data_dict["Class_Name"][0]}")
+
+
+
+# list all the classes the student attends and the teachers of these classes.
+def list_per_name(file,student_name,):
+    for line in file:
+        line = line.strip() # remove leading/trailing whitespace
+        if line:
+            stu_dict = ast.literal_eval(line)
+            if (student_name[0].strip() == stu_dict["Name"].strip() and student_name[1].strip() == stu_dict["Surname"].strip()):
+                teacher_file = open("teacher.db")
+                teacher_dict =[]
+
+                for line in teacher_file:
+                    data_dict = ast.literal_eval(line)
+                    teacher_dict.append(data_dict)
+
+                print(f"\n {stu_dict['Name']} {stu_dict['Surname']} is enrolled in:")
+
+                for class_name in stu_dict['Class_Name']:
+                    print(f" - {class_name}")
+                    class_teachers = [t for t in teacher_dict if class_name in t['Class_Name']]
+                    if class_teachers:
+                        for teacher in class_teachers:
+                            full_name = f"{teacher['Name'].strip()} {teacher['Surname'].strip()}"
+                            print(f"   >> Taught by: {full_name} ({teacher['Subject']})")
+                    else:
+                        print("   >> No teacher found for this class.")
             else:
-                print("option not available. Try again")
-                purchase(balance)
-        else:
-            print("Inventory is empty please add some")
-            break
+                print("Student not found.")
 
-    print(f"Total purchased: {total}")
-    balance = balance - total
-    print(f"Warehouse balance: {balance}")
-    LOG.append(f"New warehouse balance: {balance}")
-    return balance
+
 
 while True:
-    options = ["balance", "sale", "purchase", "account", "list", "warehouse", "review"]
-    menu("Warehouse Menu",options)
+    options = ["Create","Manage"]
+    menu("School Menu",options)
 
-    op = op_check("Chose the operation to perform:")
+    op = op_check("Chose the operation to perform")
 
     if op == 0:
         break
-    elif op == 1:
-        options=["Add","Subtract"]
+    # Create User
+    if op == 1:
         while True:
-            menu("Balance Menu",options)
-            op = op_check("chose an operation:")
-            if op ==0:
-                break
-            if op == 1:
-                new_balance = int(input(f"Enter value to add to balance- {balance} - :"))
-                balance += new_balance
-
-                LOG.append(f" Value added on account- {new_balance} - total new balance {balance} ")
-
-            if op == 2:
-                new_balance = int(input(f"Enter value to subtract to balance- {balance} - :"))
-                LOG.append(f" Value removed from account- {new_balance} - total new balance {balance} ")
-                balance -= new_balance
-
-
-        print(f"\nNew balance is {balance}:")
-        print("")
-
-    elif op == 2:
-
-        print(":::: Sale Menu ::::")
-        print("")
-        item_name = input("Enter new item Name:")
-        item_price = int(input(f"Enter {item_name} price:"))
-        item_quantity = int(input(f"Enter {item_name} quantity:"))
-
-        new_item = {}
-        new_item = {"item_name":item_name,"item_info":{"price":item_price,"quantity":item_price}}
-
-        try:
-            items.append(new_item)
-            print(f"{item_name} added !")
-            LOG.append(f" New item added:{ item_name} - Price: {item_price} - Quantity: {item_quantity}")
-        except:
-            print(f"An error happened {item_name} not added! ")
-            LOG.append(f"ERROR ADDING ITEM {item_name}")
-
-    elif op == 3:
-        balance = purchase(balance)
-    elif op == 4:
-        print("::: Account Balance :::")
-        print("")
-        print(f" Current Balance: {balance}")
-        print("")
-        LOG.append(f"Balance requested - {balance}")
-    elif op == 5:
-        print("")
-        print(f":::: Warehouse Stock  ::::")
-        print(f"Total items: {len(items)}")
-        for x, item in enumerate(items, 1):
-            print(f"#{x} - {item["item_name"]}")
-
-        LOG.append(f" Full Warehouse stock Visualized")
-        print("")
-    elif op == 6:
-        while True:
-            items_menu("Item Stock", items)
-            op = op_check("Enter item number to show its status:")
-            if op == 0:
-                break
-            op -= 1
-
-            print(f"# Name:   {items[op]["item_name"]} ")
-            print(f"##L Item Price:  {items[op]["item_info"]["price"]} ")
-            print(f"##L Item quantity: {items[op]["item_info"]["quantity"]} ")
-            print("")
-            LOG.append(f"Item Visualized: {items[op]["item_name"]} - Item Price:  {items[op]["item_info"]["price"]} -  Item quantity: {items[op]["item_info"]["quantity"]} ")
-
-    elif op == 7:
-        while True:
-            options=["All","Range"]
-            menu("Logs Review",options)
-            op = op_check("Choose option to review logs: ")
+            options = ["Student", "Teacher","Homeroom Teacher"]
+            menu("Create User", options)
+            op = op_check("Choose the type of User to Create")
 
             if op == 0:
                 break
+
             if op == 1:
-                for x, log in enumerate(LOG,1):
-                    print(f"#{x} - {log}")
-                LOG.append("LOG FILE FULLY VISUALIZED")
-            if op == 2:
-                x = op_check(f"Enter 1st value to check Logs from 0 to {len(LOG)}: ")
-                y = op_check(f"Enter 2st value to check Logs from 0 to {len(LOG)}: ")
+                name = input("Enter Student Name: ")
+                surname = input(f"Enter {name} Last name: ")
+                class_name = []
 
-                if y >= x:
-                    for z, log in enumerate(LOG[x:y], 1):
-                        print(f"#{z} - {log}")
-                else:
-                    print(f"Please try again 2 value must be bigger than 1st value {x}: ")
-                    y = op_check(f"Enter 2st value to check Logs from 0 to {len(LOG)}: ")
-                    for z, log in enumerate(LOG[x:y], 1):
-                        print(f"#{z} - {log}")
+                while True:
+                    c_name = input(f"Enter {name} Class Name ( empty to exit ): ")
+                    if c_name == "":
+                        break
+                    elif c_name != "":
+                        class_name.append(c_name.upper())
 
-                LOG.append("LOG Visualized from line {x} to {y}")
+
+                student = User(name,surname,class_name)
+                student.create_student()
+
+            elif op == 2:
+                class_name = []
+
+                name = input("Enter Teacher Name: ")
+                surname = input(f"Enter {name} Last name: ")
+
+                while True:
+                    c_name = input(f"Enter {name} Classroom ( empty to exit ): ")
+
+                    if c_name == "":
+                        break
+                    elif c_name != "":
+                        class_name.append(c_name.upper())
+
+                subject = input(f"Enter {name} Class Subject: ")
+
+                teacher = User(name, surname, class_name)
+                teacher.create_teacher(subject)
+
+            elif op == 3:
+
+                name = input("Enter Homeroom teacher Name: ")
+                surname = input(f"Enter {name} Last name: ")
+                class_name = []
+
+                while True:
+                    c_name = input(f"Enter {name} Class Name ( empty to exit ): ")
+                    if c_name == "":
+                        break
+                    elif c_name != "":
+                        class_name.append(c_name.upper())
+
+                hr_teacher = User(name, surname, class_name)
+                hr_teacher.homeroom_teacher()
+
+            else:
+                print("Invalid Option, please try  again")
+
+    if op == 2:
+        options =["Class", "Student", "Teacher", "Homeroom Teacher"]
+        while True:
+            menu("User Management", options)
+            op = op_check("Choose operation to perform: ")
+
+            if op == 0:
+                break
+
+     #  - 'class': Prompt for a class to display (e.g., "3C"), the program should list all students in the class and the homeroom teacher.
+            if op == 1:
+                class_name = input("Enter the class name: ")
+                student_file = open(f"{pwd}/student.db")
+                hr_teacher_file = open(f"{pwd}/homeroom_teacher.db")
+
+
+                list_per_Class(student_file,class_name)
+                list_per_Class(hr_teacher_file,class_name)
+
+    #   - 'student': Prompt for a student's first and last name, the program should list all the classes the student attends and the teachers of these classes.
+            elif op == 2:
+                name = input("Enter Student Name: ")
+                surname = input(f"Enter {name} Surname: ")
+                student_name = [name,surname]
+                student_file = open("student.db")
+                list_per_name(student_file, student_name)
+
+    #   - 'teacher': Prompt for a teacher's first and last name, the program should list all the classes the teacher teaches.
+            elif op == 3:
+                teacher = []
+                name = input("Enter Student Name: ").strip()
+                surname = input(f"Enter {name} Surname: ").strip()
+
+                teacher_file = open("teacher.db")
+
+                for line in teacher_file:
+                    data_dict = ast.literal_eval(line)
+                    teacher.append(data_dict)
+
+                    if name == teacher[-1]["Name"].strip() and surname == teacher[-1]["Surname"].strip():
+                        print(f"\n {teacher[-1]['Name']} {teacher[-1]['Surname']} teaches in: ")
+                        for c_name in teacher[-1]['Class_Name']:
+                            print(" " + c_name)
+
+
+    #   - 'homeroom teacher': Prompt for a homeroom teacher's first and last name, the program should list all students the homeroom teacher leads.
+            elif op == 4:
+
+                name = input("Enter Homeroom Teacher Name: ").strip()
+                surname = input(f"Enter {name} Surname: ").strip()
+
+                homeroom_file = open("homeroom_teacher.db")
+                student_file = open("student.db")
+
+                stu_dict = []
+                for line in homeroom_file:
+                    line = line.strip()
+                    if line:
+                        hrt_dict = ast.literal_eval(line)
+                        if name == hrt_dict["Name"].strip() and surname == hrt_dict["Surname"].strip():
+                            data_dict = ast.literal_eval(line)
+
+                            print(f"\n {name} {surname} is the Homeroom teacher of:")
+
+                            for hr_class_name in data_dict['Class_Name']:
+                                print(hr_class_name,":")
+                                for student in student_file:
+                                    student = student.strip()
+                                    if student:
+                                        stu_data = ast.literal_eval(student)
+                                        stu_dict.append(stu_data)
+                                        for stu_class_name in stu_data["Class_Name"]:
+                                            if stu_class_name == hr_class_name:
+                                                print(f"Name: {stu_data['Name']} {stu_data['Surname']}")
+
+                    else:
+                        print("Homeroom Teacher not found.")
+
+
+            else:
+                print("Invalid Option, please try  again")
+
+
     else:
-        print("Invalid Option")
+        print("Invalid Option, please try  again")
+
