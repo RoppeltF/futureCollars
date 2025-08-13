@@ -1,7 +1,10 @@
 import argparse
+import csv
+import pickle
 import textwrap
 import os
-from pydoc import describe
+import json
+# from pydoc import describe
 
 
 def parse_arguments():
@@ -47,7 +50,6 @@ def parse_arguments():
     parser.add_argument("-c","--changes",nargs='+',
                         help="Change is matrix based line,column,new_value")
 
-    #argument used as placement arguments instead of parametized ones
     parser.add_argument("params",nargs='*',
                         help="Takes positional arguments in 1 csv is input 2nd cvs as output 3rd field is path/folder 4th changes to perform")
 
@@ -81,73 +83,96 @@ def parse_arguments():
     return args
 
 
-def load_file(csv_file):
-    try:
-        with open(csv_file) as file:
-            return file.read().splitlines()
-    except:
-        print(f"File {csv_file} doesn't exist!")
+# Base class for reading and writing files
+class FileHandler:
+    def __init__(self, filename):
+        self.filename = filename  # store the file name/path
+        self.data = []  # will hold file content as list of lists
+
+    def load(self):
+        pass  # to be implemented in subclasses
+
+    def save(self, output_filename):
+        pass  # to be implemented in subclasses
+
+    def apply_change(self, col, row, value):
+        # Try to update the specified cell in the data matrix
+        try:
+            old_value = self.data[row][col]  # get current value
+            self.data[row][col] = value  # replace with new value
+            print(f"Changed (col {col}, row {row}): '{old_value}' -> '{value}'")
+        except IndexError:
+            print(f"Invalid position: col {col}, row {row} - skipping.")
+
+# Handler for CSV files
+class CSVHandler(FileHandler):
+    def load(self):
+        with open(self.filename, 'r') as f:
+            self.data = [line.strip().split(',') for line in f]  # split each line by comma
+
+    def save(self, output_filename):
+        with open(output_filename, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerows(self.data)  # write list of lists to CSV
+
+# Handler for JSON files
+class JSONHandler(FileHandler):
+    def load(self):
+        with open(self.filename, 'r') as f:
+            self.data = json.load(f)  # load JSON as Python list of lists
+
+    def save(self, output_filename):
+        with open(output_filename, 'w') as f:
+            json.dump(self.data, f)  # dump Python list back to JSON
+
+# Handler for Pickle files
+class PickleHandler(FileHandler):
+    def load(self):
+        with open(self.filename, 'rb') as f:
+            self.data = pickle.load(f)  # load Pickle as Python list of lists
+
+    def save(self, output_filename):
+        with open(output_filename, 'wb') as f:
+            pickle.dump(self.data, f)  # dump Python list back to Pickle
+
+# Detect and return the right handler based on file extension
+def get_handler(filename):
+    if filename.endswith('.csv'):
+        return CSVHandler(filename)
+    elif filename.endswith('.json'):
+        return JSONHandler(filename)
+    elif filename.endswith('.pickle'):
+        return PickleHandler(filename)
+    else:
+        raise ValueError(f"Unsupported file type: {filename}")
+
+# Ensure source file exists; otherwise list files in same directory
+def validate_source_file(filepath):
+    if not os.path.isfile(filepath):
+        print(f"Error: Source file '{filepath}' not found.")
+        directory = os.path.dirname(filepath) or '.'
+        exit(1)
 
 
-# def save_file(item,file_name,type="a+"):
-#     file_name = str(file_name)
-#     with open(f"{file_name}",type) as file:
-#
-#             file.write(item+"\n")
+def main():
+    args = parse_arguments()
+    validate_source_file(args.source)
 
-
-def save_file(items, filename):
-    print("===============================================")
-    print(f"Output File: {args.output}")
-    print("===============================================")
-    with open(filename, 'a+') as file:
-        for item in items:
-            if isinstance(item, list):
-                line = ",".join(map(str, item))
-            else:
-                line = str(item)
-            print(line)
-            file.write(line + '\n')
-    print("\n"*2)
-
-def main(args):
-
-    source_file = load_file(args.source)
+    handler = get_handler(args.source)
+    handler.load()
 
     for change in args.changes:
-        if len(change.split(',')) == 3:
+        try:
+            col, row, value = change.split(',')
+            handler.apply_change(int(col), int(row), value)
+        except ValueError:
+            print(f"Invalid change format: {change}. Use col,row,value")
 
-            try:
-                x,y,value = change.split(',')
-                new_line = source_file[ int(x) ].split(',')
-                print("===============================================")
-                print(f"X: {x}   Y:{y}   Value:{value} ")
-                print("===============================================")
-                print("Line to edit: ",new_line)
-                print(f"Item to edit: {new_line[int(y)]}")
-                print(f"New value: {value}")
-                new_line[ int(y) ] = str(value)
-                print("New line:",new_line[0])
-                print("===============================================")
+    dst_handler = get_handler(args.destination)
+    dst_handler.data = handler.data
+    dst_handler.save(args.destination)
 
-                source_file[int(x)] = new_line
-
-            except IndexError:
-                print(f"\nX: {x} or Y: {y} coordinate cannot be fount please correct argument {change}\n")
-        else:
-            print(f"\nArgument is incorrect {args.changes[0]}. \nUse main.py -h for help.\n")
-    print("\n")
-
-    save_file(source_file,args.output)
-
-
-
-
-
-
-
+    print(f"Modified file saved to '{args.destination}'")
 
 if __name__ == '__main__':
-## python reader.py in.csv out.csv 0,0,piano 3,1,mug 1,2,17 3,3,0
-    args = parse_arguments()
-    main(args)
+    main()
