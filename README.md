@@ -1,42 +1,35 @@
-In this exercise, you're tasked to create a Python script called 'reader.py' that modifies a CSV file based on user-provided changes, displays its content in the terminal, and saves the modified file to a provided destination.
+In this exercise, you will extend the previous CSV file modification program to also handle JSON and Pickle files. 
+The program, "reader.py", will modify a CSV, JSON, or Pickle file, display its contents in the terminal, 
+and then save it to a selected location.
 
-1. The script should be run as `reader.py <src> <dst> <change1> <change2> ...`. 'src' is the path of the CSV file to be modified.
-    - If the file does not exist or the path specified is not a file, display an error message and the filenames in the same directory.
+Make sure to use classes and inheritance in this program.
 
-2. 'dst' is the target path where the modified CSV file will be saved.
+Instructions:
 
-3. 'change1' ... 'changeN' are strings of the form "X,Y,value". 'X' is the column (also counting from 0), 'Y' is the row to modify (counting from 0), and 'value' is the new value for the given cell.
+1. Write a program named "reader.py". This program will take in command-line arguments that specify the source file, 
+destination file, and changes to be made.
 
-4. After applying all changes, the script should display the content of the modified CSV file in the terminal and save it to the destination path.
+2. The source (src) should be a path to a CSV, JSON, or Pickle file. If the file does not exist or the path is not a file, 
+the program should display an error message and list the files in the same directory.
 
-Example:
+3. The destination (dst) should be the target path where the modified file will be saved.
 
-If the script is run as follows: 
+4. The changes are strings in the form "X, Y, value", where X is the column (also counted from 0), Y is the row to be modified (counted from 0), 
+and value is the new value for the specified cell.
 
-python reader.py in.csv out.csv 0,0,piano 3,1,mug 1,2,17 3,3,0
+5. The file type for both the source and destination files should be detected based on their extensions:
+   - .csv for CSV files
+   - .json for JSON files
+   - .pickle for Pickle files
 
-And the 'in.csv' file content is: 
+6. In the case of pickle and json, files are saved as lists of lists. Each row is a list of strings, and rows are stored in the list.
 
-door,3,7,0
-sand,12,5,1
-brush,22,34,5
-poster,red,8,stick
+Example command for running the program:
 
-The following 'out.csv' file should be generated:
-
-piano,3,7,0
-sand,12,5,mug
-brush,17,34,5
-poster,red,8,0
+python reader.py source.csv destination.json "0,0,piano" "1,1,mug"
 
 Hints:
 
-- Remember how to handle command-line arguments in a Python script.
-- Use the built-in csv module to read from and write to CSV files.
-- Be mindful of the zero-based indexing of rows and columns.
-- Make sure to handle errors that might occur during file I/O operations.
-- For easier testing, use extension for your IDE that displays CSV files in human-readable form (if you’re using Visual Studio Code, you can install Edit csv or CSV to Table extension)
-
-Additional Challenge (Optional):
-
-Enhance your script to handle invalid 'change' arguments gracefully. If a 'change' argument does not have the correct format or if the specified row or column does not exist in the CSV file, display a helpful error message and skip that change.
+- Use Python's built-in csv, json, and pickle modules to handle reading and writing of files.
+- Use Python's os module to handle file paths and to check if a file exists.
+- Use Python's sys module to handle command-line arguments.
