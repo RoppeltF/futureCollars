@@ -1,22 +1,17 @@
-In this exercise, you will design the frontend for a web application that handles an accounting system and warehouse management.
-You will utilize HTML and CSS (with spectre.css) to create the main page, forms for different operations, and a history page.
+In this exercise, you will develop the backend for a web application for an accounting system and warehouse management. You will handle routes, form submissions, and data management.
 
-1. Design the main page of the web application which displays the current stock level and current account balance.
+1. Implement the backend functionality of the main page which displays the current stock level and account balance.
 
-2. On the main page, include three buttons for subpages with forms:
-   - Purchase form: This form should include fields for the product name, unit price, and number of pieces.
-   - Sale form: This form should include fields for the product name, unit price, and number of pieces.
-   - Balance change form: This form should include fields for type of operation (add or subtract) and a numeric value.
+2. Handle form submissions for the purchase form, sale form, and balance change form. After the user submits data from these forms, refresh the page or print an error message if the data was not correct.
 
-3. Ensure that, after the user submits data from these forms, the page is refreshed or an error message is printed if the data was not correct.
-
-4. Add a "History" subpage. This page will retrieve two optional parameters (from, to):
+3. Implement the backend functionality for the "History" subpage. This page will retrieve two optional parameters (from, to):
    - /history/
    - /history/<line_from>/<line_to>/
    - If no parameters were given, display all history. If parameters were given, display only the history within the provided range.
 
+4. Implement the functionality for reading and writing to a file for the history data.
+
 Hints:
-- For now, focus mainly on HTML and CSS. We will connect it to Flask in the next exercise.
-- Spectre.css is a lightweight, responsive and modern CSS framework for faster and extensible development. You can read the docs here: https://picturepan2.github.io/spectre/getting-started.html 
-- Remember to ensure your forms have proper validation in place for their inputs. For example, the unit price and number of pieces should be numeric values.
-- Make sure that your HTML and CSS are properly formatted and organized for readability and maintainability.
+
+- Make sure to validate all data received from the user and think of errors that might occur during form submission.
+- Remember to properly handle any errors that may occur during the file reading/writing process.
