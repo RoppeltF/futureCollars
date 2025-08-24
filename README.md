@@ -1,35 +1,22 @@
-In this exercise, you will extend the previous CSV file modification program to also handle JSON and Pickle files. 
-The program, "reader.py", will modify a CSV, JSON, or Pickle file, display its contents in the terminal, 
-and then save it to a selected location.
+In this exercise, you will design the frontend for a web application that handles an accounting system and warehouse management.
+You will utilize HTML and CSS (with spectre.css) to create the main page, forms for different operations, and a history page.
 
-Make sure to use classes and inheritance in this program.
+1. Design the main page of the web application which displays the current stock level and current account balance.
 
-Instructions:
+2. On the main page, include three buttons for subpages with forms:
+   - Purchase form: This form should include fields for the product name, unit price, and number of pieces.
+   - Sale form: This form should include fields for the product name, unit price, and number of pieces.
+   - Balance change form: This form should include fields for type of operation (add or subtract) and a numeric value.
 
-1. Write a program named "reader.py". This program will take in command-line arguments that specify the source file, 
-destination file, and changes to be made.
+3. Ensure that, after the user submits data from these forms, the page is refreshed or an error message is printed if the data was not correct.
 
-2. The source (src) should be a path to a CSV, JSON, or Pickle file. If the file does not exist or the path is not a file, 
-the program should display an error message and list the files in the same directory.
-
-3. The destination (dst) should be the target path where the modified file will be saved.
-
-4. The changes are strings in the form "X, Y, value", where X is the column (also counted from 0), Y is the row to be modified (counted from 0), 
-and value is the new value for the specified cell.
-
-5. The file type for both the source and destination files should be detected based on their extensions:
-   - .csv for CSV files
-   - .json for JSON files
-   - .pickle for Pickle files
-
-6. In the case of pickle and json, files are saved as lists of lists. Each row is a list of strings, and rows are stored in the list.
-
-Example command for running the program:
-
-python reader.py source.csv destination.json "0,0,piano" "1,1,mug"
+4. Add a "History" subpage. This page will retrieve two optional parameters (from, to):
+   - /history/
+   - /history/<line_from>/<line_to>/
+   - If no parameters were given, display all history. If parameters were given, display only the history within the provided range.
 
 Hints:
-
-- Use Python's built-in csv, json, and pickle modules to handle reading and writing of files.
-- Use Python's os module to handle file paths and to check if a file exists.
-- Use Python's sys module to handle command-line arguments.
+- For now, focus mainly on HTML and CSS. We will connect it to Flask in the next exercise.
+- Spectre.css is a lightweight, responsive and modern CSS framework for faster and extensible development. You can read the docs here: https://picturepan2.github.io/spectre/getting-started.html 
+- Remember to ensure your forms have proper validation in place for their inputs. For example, the unit price and number of pieces should be numeric values.
+- Make sure that your HTML and CSS are properly formatted and organized for readability and maintainability.
