@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Accounting & Warehouse</title>
+   <!-- Spectre.css -->
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+  <style>
+    :root {
+      --pad: 1rem;
+    }
+    body { background: #f7f8f9; }
+    .container { max-width: 980px; }
+    .brand { font-weight: 700; letter-spacing: .2px; }
+    .card { border-radius: 12px; }
+    .stat { font-size: 1.8rem; font-weight: 700; }
+    .router-view { min-height: 48vh; }
+    .hidden { display: none !important; }
+    .route-title { display: flex; align-items: center; gap: .5rem; }
+    .toast-area { position: fixed; right: var(--pad); bottom: var(--pad); z-index: 9999; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .table-scroll { overflow: auto; }
+  </style>
+</head>
+<body>
+  <header class="navbar bg-dark p-2">
+    <section class="navbar-section">
+      <a href="index.html" class="btn btn-link text-light">Dashboard</a>
+      <a href="purchase.html" class="btn btn-link text-light">Add Inventory</a>
+      <a href="sale.html" class="btn btn-link text-light">Sell items</a>
+      <a href="balance.html" class="btn btn-link text-light">Balance</a>
+      <a href="history.html" class="btn btn-link text-light">History</a>
+    </section>
+  </header>
+
+  <main class="container grid-lg p-2">
+    <h2>Current Overview</h2>
+    <div class="columns">
+      <div class="column col-6">
+        <div class="card">
+          <div class="card-header"><h4>Account Balance</h4></div>
+          <div class="card-body"><span class="text-success">€10,000</span></div>
+        </div>
+      </div>
+      <div class="column col-6">
+        <div class="card">
+          <div class="card-header"><h4>Stock Level</h4></div>
+          <div class="card-body"><span class="text-primary">1,245 items</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
