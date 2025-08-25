@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sale - Accounting & Warehouse</title>
+   <!-- Spectre.css -->
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+  <style>
+    :root {
+      --pad: 1rem;
+    }
+    body { background: #f7f8f9; }
+    .container { max-width: 980px; }
+    .brand { font-weight: 700; letter-spacing: .2px; }
+    .card { border-radius: 12px; }
+    .stat { font-size: 1.8rem; font-weight: 700; }
+    .router-view { min-height: 48vh; }
+    .hidden { display: none !important; }
+    .route-title { display: flex; align-items: center; gap: .5rem; }
+    .toast-area { position: fixed; right: var(--pad); bottom: var(--pad); z-index: 9999; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .table-scroll { overflow: auto; }
+  </style>
+</head>
+<body>
+  <header class="navbar bg-dark p-2">
+    <section class="navbar-section">
+      <a href="index.html" class="btn btn-link text-light">Dashboard</a>
+      <a href="purchase.html" class="btn btn-link text-light">Purchase</a>
+      <a href="sale.html" class="btn btn-link text-light">Sale</a>
+      <a href="balance.html" class="btn btn-link text-light">Balance Change</a>
+      <a href="history.html" class="btn btn-link text-light">History</a>
+    </section>
+  </header>
+
+  <main class="container grid-lg p-2">
+    <h2>Sale Form</h2>
+    <form>
+      <div class="form-group">
+        <label>Product Name</label>
+        <input class="form-input" type="text" required>
+      </div>
+      <div class="form-group">
+        <label>Unit Price</label>
+        <input class="form-input" type="number" min="0" required>
+      </div>
+      <div class="form-group">
+        <label>Number of Pieces</label>
+        <input class="form-input" type="number" min="1" required>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit Sale</button>
+    </form>
+  </main>
+</body>
+</html>
