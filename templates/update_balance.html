@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <h2>Balance Update</h2>
+
+    <div class="columns">
+      <div class="column col-6">
+        <div class="card">
+          <div class="card-header"><h4>Account Balance</h4></div>
+          <div class="card-body"><span class="text-success"><b>€ {{ balance }} </b></span></div>
+        </div>
+      </div>
+    </div>
+
+    <form action="/balance_update_form" method="POST">
+      <div class="form-group">
+        <label>Select Operation Type</label>
+        <select class="form-select" required name="operation">
+          <option value="select">Select</option>
+          <option value="add">Add</option>
+          <option value="subtract">Subtract</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Amount:</label>
+        <input class="form-input" type="number" min="1" required name="amount">
+      </div>
+      <button class="btn btn-primary" type="submit">Update Balance</button>
+    </form>
+
+{% endblock %}

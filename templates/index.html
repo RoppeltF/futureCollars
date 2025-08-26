@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Balance Change - Accounting & Warehouse</title>
+  <title>{{ page_title }} - Accounting & Warehouse</title>
    <!-- Spectre.css -->
   <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
   <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
@@ -27,31 +27,18 @@
 <body>
   <header class="navbar bg-dark p-2">
     <section class="navbar-section">
-      <a href="index.html" class="btn btn-link text-light">Dashboard</a>
-      <a href="purchase.html" class="btn btn-link text-light">Purchase</a>
-      <a href="sale.html" class="btn btn-link text-light">Sale</a>
-      <a href="balance.html" class="btn btn-link text-light">Balance Change</a>
-      <a href="history.html" class="btn btn-link text-light">History</a>
+      <a href={{ url_for("dashboard") }} class="btn btn-link text-light">Dashboard</a>
+      <a href={{ url_for("add_inventory") }} class="btn btn-link text-light">Add Inventory</a>
+      <a href={{ url_for("sell") }} class="btn btn-link text-light">Sell items</a>
+      <a href={{ url_for("balance") }} class="btn btn-link text-light">Balance</a>
+      <a href={{ url_for("logs") }} class="btn btn-link text-light">History</a>
     </section>
   </header>
 
   <main class="container grid-lg p-2">
-    <h2>Balance Change</h2>
-    <form>
-      <div class="form-group">
-        <label>Operation Type</label>
-        <select class="form-select" required>
-          <option value="">Select</option>
-          <option value="add">Add</option>
-          <option value="subtract">Subtract</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Value</label>
-        <input class="form-input" type="number" min="1" required>
-      </div>
-      <button class="btn btn-primary" type="submit">Change Balance</button>
-    </form>
+    {% block content %}
+    {% endblock %}
   </main>
+
 </body>
 </html>

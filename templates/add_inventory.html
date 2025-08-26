@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+  <h2>Add Inventory</h2>
+
+  <form action="/add_item_form" method="POST">
+    <div class="form-group">
+      <label>Product Name</label>
+      <input class="form-input" type="text" required name="item_name" id="item_name">
+    </div>
+    <div class="form-group">
+      <label>Unit Price</label>
+      <input class="form-input" type="number" min="0" required name="item_price" id="item_price">
+    </div>
+    <div class="form-group">
+      <label>Number of Pieces</label>
+      <input class="form-input" type="number" min="1" required name="item_quantity" id="item_quantity">
+    </div>
+    <button class="btn btn-primary" type="submit">Submit Purchase</button>
+  </form>
+
+{% endblock %}
