@@ -26,9 +26,22 @@
                 <td>{{ entry[4] }}</td>
             </tr>
           {% endfor %}
-
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th><p><b>Total: €{{ total }}</b></p></th>
+        </tr>
       </tbody>
 
     </table>
-    <p><b>Total: €{{ total }}</b></p>
+
+
+    <form form action="/shopping_cart" method="POST">
+        <input type="submit" name="Confirm" value="Confirm">
+        <input type="submit" name="Cancel" value="Cancel">
+    </form>
+
 {% endblock %}
