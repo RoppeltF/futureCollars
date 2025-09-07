@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page_title }} - Accounting & Warehouse</title>
+   <!-- Spectre.css -->
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+  <style>
+    :root {
+      --pad: 1rem;
+    }
+    body { background: #f7f8f9; }
+    .container { max-width: 980px; }
+    .brand { font-weight: 700; letter-spacing: .2px; }
+    .card { border-radius: 12px; }
+    .stat { font-size: 1.8rem; font-weight: 700; }
+    .router-view { min-height: 48vh; }
+    .hidden { display: none !important; }
+    .route-title { display: flex; align-items: center; gap: .5rem; }
+    .toast-area { position: fixed; right: var(--pad); bottom: var(--pad); z-index: 9999; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .table-scroll { overflow: auto; }
+
+
+  </style>
+</head>
+<body>
+  <header class="navbar bg-dark p-2">
+    <section class="navbar-section">
+      <!-- Left side navigation links -->
+      <a href="{{ url_for('app.dashboard') }}" class="btn btn-link text-light">Dashboard</a>
+      <a href="{{ url_for('app.add_inventory') }}" class="btn btn-link text-light">Add Inventory</a>
+      <a href="{{ url_for('app.sell') }}" class="btn btn-link text-light">Sell items</a>
+      <a href="{{ url_for('app.balance') }}" class="btn btn-link text-light">Balance</a>
+      <a href="{{ url_for('app.logs') }}" class="btn btn-link text-light">History</a>
+    </section>
+
+    <section class="navbar-section">
+      <!-- Right side links -->
+      <a href="{{ url_for('app.shopping_cart') }}" class="btn btn-link text-light cart-badge">
+        <span class="badge" data-badge="{{ cart_count if cart_count > 0 else '' }}">
+          <i class="icon icon-cart"></i> Cart
+        </span>
+      </a>
+      <a href="{{ url_for('app.logout') }}" class="btn btn-link text-light">Logout</a>
+    </section>
+  </header>
+
+  <main class="container grid-lg p-2">
+    {% block content %}
+
+    {% endblock %}
+  </main>
+
+</body>
+</html>

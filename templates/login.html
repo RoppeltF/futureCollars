@@ -2,7 +2,6 @@
 
 {% block content %}
   <h2>Login</h2>
-
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <ul>
@@ -23,7 +22,6 @@
 
         <button type="submit">sign up </button>
     </form>
-
-    <p>Doesn't have an account yet? <a href="{{ url_for('app.register') }}">Register Here !</a></p>
-
+    <br>
+    <a href="{{ url_for('app.login') }}">Already have an account? Login here</a>
 {% endblock %}

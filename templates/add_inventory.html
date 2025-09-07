@@ -1,7 +1,73 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+          <li style="color: {{ 'red' if category=='danger' else 'green' }}">{{ message }}</li>
+        {% endfor %}
+
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+
+<script>
+let isBalanceSufficient = true;
+
+function calculateTotal() {
+    const price = parseFloat(document.getElementById('item_price').value) || 0;
+    const quantity = parseInt(document.getElementById('item_quantity').value) || 0;
+    const total = price * quantity;
+    const currentBalance = {{ current_balance }};
+
+    // Update displays
+    document.getElementById('total_cost').value = total.toFixed(2);
+
+    // Check if balance is sufficient
+    const warningDiv = document.getElementById('balance-warning');
+    const submitBtn = document.getElementById('submit-btn');
+
+
+    if (total > currentBalance && total > 0) {
+        // Insufficient balance
+        isBalanceSufficient = false;
+        warningDiv.style.display = 'block';
+        submitBtn.classList.add('btn-error');
+        submitBtn.classList.remove('btn-primary');
+
+        submitBtn.textContent = 'Insufficient Balance';
+        submitBtn.disabled = true;
+    } else {
+        // Sufficient balance or no cost calculated yet
+        isBalanceSufficient = true;
+        warningDiv.style.display = 'none';
+        submitBtn.classList.remove('btn-error');
+        submitBtn.classList.add('btn-primary');
+        submitBtn.textContent = 'Submit Purchase';
+        submitBtn.disabled = false;
+    }
+}
+
+
+// Initialize calculation on page load
+document.addEventListener('DOMContentLoaded', function() {
+    calculateTotal();
+});
+</script>
+
+	<div class="columns">
+		<div class="column col-10">
+		  <div class="card">
+		    <div class="card-header"><h3>Balance</h3></div>
+				<div class="card-body"><h2><span class="text-success"><b>€ {{ current_balance }} </b></span></h2></div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+<br><br><br>
   <div class="columns">
     <div class="column col-4">
       <div class="card">
@@ -9,7 +75,15 @@
           <div class="card-body">
             <ul>
               {% for item in items %}
-              <li>{{ item }}</li>
+              <li>
+                {{ item.item_name }}
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                  <form action="{{ url_for('app.delete_item') }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="item_id" value={{ item.id }}>
+                    <button type="submit" class="btn btn-link btn-sm" style="color:red;" align="right">Delete</button>
+                  </form>
+                {% endif %}
+              </li>
               {% endfor %}
             </ul>
           </div>
@@ -22,20 +96,36 @@
 
         <div class="card-body">
 
-            <form action="/add_item_form" method="POST">
+            <form action="{{ url_for('app.add_item_form') }}" method="POST">
               <div class="form-group">
                 <label>Product Name</label>
                 <input class="form-input" type="text" required name="item_name" id="item_name">
               </div>
-              <div class="form-group">
-                <label>Unit Price</label>
-                <input class="form-input" type="number" min="0" required name="item_price" id="item_price">
-              </div>
-              <div class="form-group">
-                <label>Number of Pieces</label>
-                <input class="form-input" type="number" min="1" required name="item_quantity" id="item_quantity">
-              </div>
-              <button class="btn btn-primary" type="submit">Submit Purchase</button>
+	            <div class="form-group">
+	                <label>Unit Price (€)</label>
+	                <input class="form-input" type="number" step="0.01" min="0" required
+	                       name="item_price" id="item_price" onchange="calculateTotal()">
+	            </div>
+
+	            <div class="form-group">
+	                <label>Number of Pieces</label>
+	                <input class="form-input" type="number" min="1" required
+	                       name="item_quantity" id="item_quantity" onchange="calculateTotal()">
+	            </div>
+
+	            <!-- Purchase Cost Display -->
+	            <div class="form-group">
+	                <label>Total Purchase Cost</label>
+	                <div class="input-group">
+	                    <span class="input-group-addon">€</span>
+	                    <input class="form-input" type="text" id="total_cost" readonly
+	                           placeholder="0.00" style="background-color: #f8f9fa;">
+	                </div>
+	                <div id="balance-warning" class="text-error" style="display:none;color:#FF0000 ">
+	                    ⚠️ Insufficient balance for this purchase!
+	                </div>
+	            </div>
+              <button class="btn btn-primary" type="submit" id="submit-btn">Submit Purchase</button>
             </form>
 
         </div>
@@ -43,7 +133,6 @@
       </div>
     </div>
   </div>
-
 
 
 

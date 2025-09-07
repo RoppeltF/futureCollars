@@ -1,19 +1,35 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-  <h2>Current Overview</h2>
-  <div class="columns">
-    <div class="column col-6">
-      <div class="card">
-        <div class="card-header"><h4>Account Balance</h4></div>
-        <div class="card-body"><span class="text-success"><b>€ {{ balance }} </b></span></div>
-      </div>
-    </div>
-    <div class="column col-6">
-      <div class="card">
-        <div class="card-header"><h4>Stock Level</h4></div>
-        <div class="card-body"><span class="text-primary"><b>{{ inventory }} Items</b></span></div>
-      </div>
-    </div>
-  </div>
+
+	<h2>Current Overview</h2>
+	<div class="columns">
+		<div class="column col-6">
+		  <div class="card">
+		    <div class="card-header"><h4>Account Balance</h4></div>
+		    <div class="card-body"><span class="text-success"><b>€ {{ balance }} </b></span></div>
+		  </div>
+		</div>
+		<div class="column col-6">
+		  <div class="card">
+		    <div class="card-header"><h4>Stock Level</h4></div>
+		    <div class="card-body"><span class="text-primary"><b>{{ inventory }} Items</b></span></div>
+		  </div>
+		</div>
+
+        <div class="column col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Inventory Value</h3>
+                </div>
+	            <div class="card-body">
+		            <span class="text-success">
+		            <b>
+		               € {{ total_inventory_value }}
+		            </b>
+		            </span>
+	            </div>
+            </div>
+        </div>
+	</div>
 {% endblock %}
