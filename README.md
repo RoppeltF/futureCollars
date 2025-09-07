@@ -1,18 +1,95 @@
-In this exercise, you will develop the backend for a web application for an accounting system and warehouse management. You will handle routes, form submissions, and data management.
+FLASK - HTML & CSS & SQL
+Final project
 
-1. Implement the backend functionality of the main page which displays the current stock level and account balance.
+FLASK - HTML & CSS & SQL
+Final project
 
-2. Handle form submissions for the purchase form, sale form, and balance change form. 
-After the user submits data from these forms, refresh the page or print an error message if the data was not correct.
+To RUN:
 
-3. Implement the backend functionality for the "History" subpage. This page will retrieve two optional parameters (from, to):
-   - /history/
-   - /history/<line_from>/<line_to>/
-   - If no parameters were given, display all history. If parameters were given, display only the history within the provided range.
+flask --app main db revision init_DB  
+flask --app main db upgrade
+flask --app main run 
+  
 
-4. Implement the functionality for reading and writing to a file for the history data.
+Inventory Management System
+A Flask-based web application for managing inventory, sales, and balance tracking with user authentication.
+Features
 
-Hints:
+User Authentication: Register, login, and logout functionality
+Inventory Management: Add, update, and delete inventory items
+Sales System: Shopping cart functionality with stock management
+Balance Tracking: Monitor and update account balance
+Activity Logging: Comprehensive logging system for all operations
+Dashboard: Overview of key metrics (balance, inventory levels, total value)
 
-- Make sure to validate all data received from the user and think of errors that might occur during form submission.
-- Remember to properly handle any errors that may occur during the file reading/writing process.
+Features: Paginated log viewing, most recent first
+
+Technical Details
+Dependencies
+
+Flask
+Flask-Login (user session management)
+SQLAlchemy (database ORM)
+Custom modules: extensions, dbClasses, basic_functions
+
+Database Models
+
+UserDB: User accounts and authentication
+ItemDB: Inventory items (name, price, quantity)
+Balance: Balance history tracking
+LOG: Activity logging
+
+Security Features
+
+Login required decorators on protected routes
+Password hashing (via UserDB.check_password)
+User session management
+Input validation and sanitization
+
+
+File Operations
+
+cart.txt: Temporary storage for shopping cart items, using through cart.txt file
+Automatic file cleanup after purchase/cancel completion
+
+Error Handling
+
+Custom error pages (404, 400, 500)
+Auto-redirect to dashboard on errors
+Comprehensive logging of all operations
+Transaction rollbacks on database errors
+
+Usage Flow
+
+Registration/Login: Create account or log in
+Dashboard: View system overview
+Add Inventory: Manage product stock
+Sales: Add items to cart and process sales
+Balance: Monitor and adjust account balance
+History: Review all system activities
+
+Features
+Automatic Features
+
+Stock Validation: Prevents overselling
+Balance Protection: Prevents negative balances
+Activity Logging: All operations are logged
+Data Normalization: Consistent data formatting
+Cart Count: Real-time cart item count in navigation
+
+Installation & Setup
+
+Install required dependencies
+Configure database connection in extensions.py
+Set up database models from dbClasses.py
+Run the Flask application
+Register your first user account
+
+Notes
+
+First User creates is Admin, all other users registered are default type.
+Default user type is "user"
+Balance increases with sales (income)
+All monetary values appear to be in Euros (€)
+Cart data is temporarily stored in text files
+System maintains comprehensive audit trail through logging
