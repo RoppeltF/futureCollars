@@ -1,9 +1,6 @@
 FLASK - HTML & CSS & SQL
 Final project
 
-FLASK - HTML & CSS & SQL
-Final project
-
 To RUN:
 
 flask --app main db revision init_DB  
